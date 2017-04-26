@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         DrawView dv = (DrawView) v;
         dv.mPoint.x = (int) event.getX();
         dv.mPoint.y = (int) event.getY();
+        dv.touch = true;
         dv.invalidate();
         return true;
     }
@@ -41,9 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         Paint mPaint;
         Rect mRect;
         Point mPoint;
+        boolean touch;
 
         public DrawView(final Context context) {
             super(context);
+            touch = false;
             mPaint = new Paint();
             mRect = new Rect();
             mPoint = new Point(0, 0);
@@ -54,7 +57,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             super.onDraw(canvas);
 
             canvas.drawARGB(80, 102, 204, 255);
-            mPaint.setColor(Color.CYAN);
+
+            if (!touch) {
+                mPaint.setColor(Color.WHITE);
+            } else {
+                mPaint.setColor(Color.GREEN);
+            }
             mPaint.setStrokeWidth(5);
             mRect.set(mPoint.x - 50, mPoint.y - 50, mPoint.x + 50, mPoint.y + 50);
             canvas.drawRect(mRect, mPaint);
